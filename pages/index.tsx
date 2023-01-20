@@ -1,11 +1,22 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import { Inter } from '@next/font/google'
-import { useEffect, useRef, useState } from 'react'
+import { useCallback } from 'react'
+import type { NextPage } from 'next'
+import { useSelector } from 'react-redux' // 스토어에서 state를 불러오기 위한 hook
+import { RootState } from '../store' // 스토어에 저장된 state의 type
+import { useAppDispatch } from '../store' //스토어 생성단계에서 export한 커스텀 dispatch hook
+import { increment, decrement } from '../store/features/counterSlice'
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
+  const dispatch = useAppDispatch()
+  const { val } = useSelector((state: RootState) => state.counter)
+
+  const onIncrement = useCallback(() => dispatch(increment()), [])
+  const onDecrement = useCallback(() => dispatch(decrement()), [])
+  console.log(val)
   return (
     <>
       <Head>
@@ -14,11 +25,10 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main >
-        <p>
-          Get started by editing&nbsp;
-        </p>
-  
+      <main>
+        <p>Get started by editing&nbsp;</p>
+        <button onClick={onIncrement}>+</button>
+        <button onClick={onDecrement}>-</button>
       </main>
     </>
   )
