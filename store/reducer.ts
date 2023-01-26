@@ -1,20 +1,20 @@
-import { combineReducers } from 'redux';
-import { HYDRATE } from 'next-redux-wrapper';
-import counterSlice from './features/counterSlice';
+import { combineReducers } from 'redux'
+import { HYDRATE } from 'next-redux-wrapper'
+import userSlice from './features/userSlice'
 
 const combinedReducer = combineReducers({
-    counter: counterSlice,
-});
+  user: userSlice,
+})
 
 const rootReducer: typeof combinedReducer = (state, action) => {
-    if (action.type === HYDRATE) {
-        const nextState = {
-            ...state,
-            ...action.payload
-        }
-        return nextState;
-    } else {
-        return combinedReducer(state, action)
+  if (action.type === HYDRATE) {
+    const nextState = {
+      ...state,
+      ...action.payload,
     }
+    return nextState
+  } else {
+    return combinedReducer(state, action)
+  }
 }
-export default rootReducer;
+export default rootReducer
